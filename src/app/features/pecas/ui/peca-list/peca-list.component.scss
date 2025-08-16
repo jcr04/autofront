@@ -1,0 +1,77 @@
+:host {
+  display: block;
+}
+
+mat-card {
+  padding: 12px;
+}
+
+/* Toolbar superior */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+
+  .spacer {
+    flex: 1;
+  }
+}
+
+/* Tabela */
+table {
+  width: 100%;
+}
+
+/* Células (Material v20 usa .mat-mdc-*) */
+.mat-mdc-header-cell,
+.mat-mdc-cell,
+.mat-mdc-footer-cell {
+  padding: 8px 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Alinhamentos por coluna (use os mesmos nomes do array "cols" no .ts) */
+.mat-column-nome {
+  max-width: 380px;
+}
+
+.mat-column-codigo {
+  max-width: 220px;
+}
+
+.mat-column-quantidade,
+.mat-column-preco {
+  text-align: right;
+  max-width: 140px;
+}
+
+.mat-column-acoes {
+  text-align: right;
+
+  button + button {
+    margin-left: 4px;
+  }
+}
+
+/* Paginator */
+mat-paginator {
+  margin-top: 8px;
+}
+
+/* Responsivo: esconde código em telas menores e dá mais espaço pras ações */
+@media (max-width: 768px) {
+  .mat-column-codigo {
+    display: none;
+  }
+
+  .mat-column-nome {
+    max-width: 60vw;
+  }
+
+  .mat-column-acoes {
+    text-align: left;
+  }
+}

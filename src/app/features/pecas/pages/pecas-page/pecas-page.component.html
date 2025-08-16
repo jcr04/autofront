@@ -1,0 +1,11 @@
+<app-peca-list
+  [data]="(pecas$ | async) ?? []"
+  [total]="(total$ | async) ?? 0"
+  [page]="(page$ | async) ?? 1"
+  [pageSize]="(pageSize$ | async) ?? 20"
+  (pageChange)="paginate($event.pageIndex, $event.pageSize)"
+  (create)="openCreate()"
+  (editarPreco)="openPreco($event)"
+  (estoque)="openEstoque($event)"
+  (excluir)="openDelete($event)">
+</app-peca-list>
