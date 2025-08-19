@@ -1,11 +1,34 @@
-<app-peca-list
-  [data]="(pecas$ | async) ?? []"
-  [total]="(total$ | async) ?? 0"
-  [page]="(page$ | async) ?? 1"
-  [pageSize]="(pageSize$ | async) ?? 20"
-  (pageChange)="paginate($event.pageIndex, $event.pageSize)"
-  (create)="openCreate()"
-  (editarPreco)="openPreco($event)"
-  (estoque)="openEstoque($event)"
-  (excluir)="openDelete($event)">
-</app-peca-list>
+<div class="page">
+  <div class="page-header">
+    <div class="title">
+      <h1>Gestão de Peças</h1>
+      <p class="subtitle">
+        <ng-container *ngIf="(total$ | async) as total; else carregandoTotal">
+          Total: <strong>{{ total }}</strong> itens
+        </ng-container>
+        <ng-template #carregandoTotal>Carregando…</ng-template>
+      </p>
+    </div>
+
+    <div class="actions">
+      <button mat-stroked-button (click)="refresh()" [disabled]="(loading$ | async) ?? false">
+        <mat-icon>refresh</mat-icon>
+        Atualizar
+      </button>
+    </div>
+  </div>
+
+  <mat-progress-bar *ngIf="(loading$ | async)" mode="indeterminate"></mat-progress-bar>
+
+  <app-peca-list
+    [data]="(pecas$ | async) ?? []"
+    [total]="(total$ | async) ?? 0"
+    [page]="(page$ | async) ?? 1"
+    [pageSize]="(pageSize$ | async) ?? 20"
+    (pageChange)="paginate($event.pageIndex, $event.pageSize)"
+    (create)="openCreate()"
+    (editarPreco)="openPreco($event)"
+    (estoque)="openEstoque($event)"
+    (excluir)="openDelete($event)">
+  </app-peca-list>
+</div>

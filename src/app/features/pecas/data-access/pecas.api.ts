@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { PagedResult } from '../../../shared/models/paged-result.model';
 import { CreatePecaRequest, MovEstoqueDto, Peca } from '../../../shared/models/peca.model';
 import { environment } from '../../../../environments/environment';
+import { Categoria, Fabricante } from '../../../shared/models/lookup.model';
 
 @Injectable({ providedIn: 'root' })
 export class PecasApi {
@@ -36,5 +37,19 @@ export class PecasApi {
 
   delete(id: number) {
     return this.http.delete<void>(`${this.url}/${id}`);
+  }
+
+  getCategorias(): Observable<Categoria[]> {
+    return this.http.get<Categoria[]>(`${environment.apiUrl}/api/Categorias`);
+  }
+  getFabricantes(): Observable<Fabricante[]> {
+    return this.http.get<Fabricante[]>(`${environment.apiUrl}/api/Fabricantes`);
+  }
+
+  createCategoria(nome: string) {
+    return this.http.post<{ id: number }>(`${environment.apiUrl}/api/Categorias`, { nome });
+  }
+  createFabricante(nome: string) {
+    return this.http.post<{ id: number }>(`${environment.apiUrl}/api/Fabricantes`, { nome });
   }
 }

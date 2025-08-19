@@ -1,6 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { AsyncPipe, CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { PecaFormDialogComponent } from '../../ui/peca-form-dialog/peca-form-dialog.component';
 import { PrecoDialogComponent } from '../../ui/preco-dialog/preco-dialog.component';
@@ -8,13 +11,22 @@ import { EstoqueDialogComponent } from '../../ui/estoque-dialog/estoque-dialog.c
 import { DeleteDialogComponent } from '../../ui/delete-dialog/delete-dialog.component';
 import { PecasFacade } from '../../data-access/+state/pecas.facade';
 import { PecaListComponent } from '../../ui/peca-list/peca-list.component';
+import { combineLatest } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   standalone: true,
   selector: 'app-pecas-page',
   templateUrl: './pecas-page.component.html',
   styleUrls: ['./pecas-page.component.scss'],
-  imports: [CommonModule, AsyncPipe, PecaListComponent],
+  imports: [
+    CommonModule,
+    AsyncPipe,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressBarModule,
+    PecaListComponent,
+  ],
 })
 export class PecasPageComponent implements OnInit {
   private readonly facade = inject(PecasFacade);
@@ -28,6 +40,12 @@ export class PecasPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.facade.load(1, 20);
+  }
+
+  refresh() {
+    combineLatest([this.page$, this.pageSize$]).pipe(take(1)).subscribe(([p, s]) => {
+      this.facade.load(p ?? 1, s ?? 20);
+    });
   }
 
   paginate(pageIndex: number, pageSize: number) {

@@ -15,10 +15,8 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class PecasFacade {
-  // Store injetado de forma segura para inicializadores de campo
   private readonly store = inject(Store);
 
-  // Campos podem usar this.store sem erro
   readonly pecas$ = this.store.select(selectAllPecas);
   readonly loading$ = this.store.select(selectLoading);
   readonly total$ = this.store.select(selectTotal);
